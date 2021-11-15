@@ -18,7 +18,6 @@ public class JdbcTacoRepository implements TacoRepository {
 
 	private JdbcTemplate jdbc;
 
-	// @Autowired
 	public JdbcTacoRepository(JdbcTemplate jdbc) {
 		this.jdbc = jdbc;
 	}
@@ -28,20 +27,41 @@ public class JdbcTacoRepository implements TacoRepository {
 		long tacoId = saveTacoInfo(taco);
 		taco.setId(tacoId);
 
-		// TODO by the book
-		//  (Ingredient ingredient : taco.getIngredients())
+		/*
+		By the book
+		(Ingredient ingredient : taco.getIngredients())
+		 */
 		for (String ingredient : taco.getIngredients()) {
 			saveIngredientToTaco(ingredient, tacoId);
 		}
 
-		return null;
+		return taco;
 	}
 
 	private long saveTacoInfo(Taco taco) {
 		taco.setCreatedAt(new Date());
+
+		/*
+		By the book:
+
 		PreparedStatementCreator psc = new PreparedStatementCreatorFactory(
 				"insert into Taco (name, createdAt) values (?, ?)",
 				Types.VARCHAR, Types.TIMESTAMP)
+				.newPreparedStatementCreator(
+						Arrays.asList(
+								taco.getName(),
+								new Timestamp(taco.getCreatedAt().getTime())));
+
+		But, it throws out the NullPointerException.
+		 */
+
+		PreparedStatementCreatorFactory pscf = new PreparedStatementCreatorFactory(
+				"insert into Taco (name, createdAt) values (?, ?)",
+				Types.VARCHAR, Types.TIMESTAMP);
+
+		pscf.setReturnGeneratedKeys(true);
+
+		PreparedStatementCreator psc = pscf
 				.newPreparedStatementCreator(
 						Arrays.asList(
 								taco.getName(),
@@ -53,12 +73,16 @@ public class JdbcTacoRepository implements TacoRepository {
 		return keyHolder.getKey().longValue();
 	}
 
-	// TODO by the book
-	//  private void saveIngredientToTaco(Ingredient ingredient, long tacoId)
+	/*
+	By the book:
+	private void saveIngredientToTaco(Ingredient ingredient, long tacoId)
+	 */
 	private void saveIngredientToTaco(String ingredient, long tacoId) {
 
-		// TODO by the book
-		//  jdbc.update("insert into Taco_Ingredients (taco, ingredient) values (?, ?)", tacoId, ingredient.getId())
+		/*
+		By the book
+		jdbc.update("insert into Taco_Ingredients (taco, ingredient) values (?, ?)", tacoId, ingredient.getId())
+		 */
 		jdbc.update("insert into Taco_Ingredients (taco, ingredient) values (?, ?)",
 				tacoId, ingredient);
 	}
