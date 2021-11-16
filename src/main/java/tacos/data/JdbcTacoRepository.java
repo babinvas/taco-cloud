@@ -59,7 +59,12 @@ public class JdbcTacoRepository implements TacoRepository {
 				"insert into Taco (name, createdAt) values (?, ?)",
 				Types.VARCHAR, Types.TIMESTAMP);
 
+		// There are two options for kkk to return id,
+		// or you can apply them together
+		// the first one:
 		pscf.setReturnGeneratedKeys(true);
+		// the second one:
+		pscf.setGeneratedKeysColumnNames("id");
 
 		PreparedStatementCreator psc = pscf
 				.newPreparedStatementCreator(
