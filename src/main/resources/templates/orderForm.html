@@ -22,42 +22,47 @@
     </div>
 
     <h3>Deliver my taco masterpieces to...</h3>
-    <label for="name">Name: </label>
-    <input type="text" th:field="*{name}"/>
+    <label for="deliveryName">Name: </label>
+    <input type="text" th:field="*{deliveryName}"/>
     <span class="validationError"
-          th:if="${#fields.hasErrors('name')}"
-          th:errors="*{name}">
+          th:if="${#fields.hasErrors('deliveryName')}"
+          th:errors="*{deliveryName}">
             CC Name Error
     </span>
     <br/>
 
-    <label for="street">Street address: </label>
-    <input type="text" th:field="*{street}"/>
+    <label for="deliveryStreet">Street address: </label>
+    <input type="text" th:field="*{deliveryStreet}"/>
+    <span class="validationError"
+          th:if="${#fields.hasErrors('deliveryStreet')}"
+          th:errors="*{deliveryStreet}">
+            CC Name Error
+    </span>
     <br/>
 
-    <label for="city">City: </label>
-    <input type="text" th:field="*{city}"/>
+    <label for="deliveryCity">City: </label>
+    <input type="text" th:field="*{deliveryCity}"/>
     <span class="validationError"
-          th:if="${#fields.hasErrors('city')}"
-          th:errors="*{city}">
+          th:if="${#fields.hasErrors('deliveryCity')}"
+          th:errors="*{deliveryCity}">
             CC City Error
     </span>
     <br/>
 
-    <label for="state">State: </label>
-    <input type="text" th:field="*{state}"/>
+    <label for="deliveryState">State: </label>
+    <input type="text" th:field="*{deliveryState}"/>
     <span class="validationError"
-          th:if="${#fields.hasErrors('state')}"
-          th:errors="*{state}">
+          th:if="${#fields.hasErrors('deliveryState')}"
+          th:errors="*{deliveryState}">
             CC State Error
     </span>
     <br/>
 
-    <label for="zip">Zip code: </label>
-    <input type="text" th:field="*{zip}"/>
+    <label for="deliveryZip">Zip code: </label>
+    <input type="text" th:field="*{deliveryZip}"/>
     <span class="validationError"
-          th:if="${#fields.hasErrors('zip')}"
-          th:errors="*{zip}">
+          th:if="${#fields.hasErrors('deliveryZip')}"
+          th:errors="*{deliveryZip}">
             CC Zip Error
     </span>
     <br/>
