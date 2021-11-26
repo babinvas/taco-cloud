@@ -11,5 +11,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+
+		// The passwords in the book don't contain "{noop}", but the app throws exception without it
+		auth
+			.inMemoryAuthentication()
+				.withUser("vas")
+					.password("{noop}vas")
+					.authorities("ROLE_USER")
+				.and()
+				.withUser("bas")
+					.password("{noop}bas")
+					.authorities("ROLE_USER");
 	}
 }
