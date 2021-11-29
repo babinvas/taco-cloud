@@ -1,26 +1,31 @@
 package tacos.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.password.StandardPasswordEncoder;
+
+import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+	@Autowired
+	DataSource dataSource;
+
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 
-		// The passwords in the book don't contain "{noop}", but the app throws exception without it
 		auth
-			.inMemoryAuthentication()
-				.withUser("vas")
-					.password("{noop}vas")
-					.authorities("ROLE_USER")
-				.and()
-				.withUser("bas")
-					.password("{noop}bas")
-					.authorities("ROLE_USER");
+			.jdbcAuthentication()
+				.dataSource(dataSource)
+				.usersByUsernameQuery(
+						"select username, password, enabled from User where username=?")
+				.authoritiesByUsernameQuery(
+						"select username, authority from UserAuthorities where username=?")
+				.passwordEncoder(new StandardPasswordEncoder("53cr3t"));
 	}
 }
