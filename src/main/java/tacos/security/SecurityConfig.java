@@ -33,7 +33,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 				.and()
 					.logout()
-						.logoutSuccessUrl("/");
+						.logoutSuccessUrl("/")
+
+				// Make H2-Console non-secured; for debug purposes
+				.and()
+					.csrf()
+						.ignoringAntMatchers("/h2-console/**")
+
+				// Allow pages to be loaded in frames from the same origin; needed for H2-Console
+				.and()
+					.headers()
+						.frameOptions()
+							.sameOrigin();
 	}
 
 	@Bean
