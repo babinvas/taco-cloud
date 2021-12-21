@@ -1,0 +1,15 @@
+spring:
+  jpa.show-sql: true
+
+loggin:
+  path: /var/logs/
+  file: TacoCloud.log
+  level:
+    root: DEBUG
+    org:
+      springframework:
+        security: DEBUG
+
+taco:
+  orders:
+    pageSize: 10
